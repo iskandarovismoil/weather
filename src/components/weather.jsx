@@ -1,9 +1,9 @@
 import React from "react";
 
 const Weather = (props) => (
-  <div className="list-group mt-3">
+  <div className="list-group">
     {props.city && (
-      <div className="input_container">
+      <div className="input_container weather">
         <p className="border-bottom pb-1 mb-1">
           <strong>Местоположениe:</strong> {props.city}, {props.country}
         </p>
@@ -24,7 +24,9 @@ const Weather = (props) => (
         </p>
       </div>
     )}
-    <p className="input_container d-none"> {props.error} </p>
+    {props.error != undefined && (
+      <p className="input_container weather mb-0"><strong> {props.error} </strong></p>
+    )}
   </div>
 );
 export default Weather;

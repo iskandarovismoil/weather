@@ -35,17 +35,32 @@ class App extends React.Component {
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
       );
       const data = await api_url.json();
-
-      this.setState({
-        temp: data.main.temp,
-        city: data.name,
-        country: data.sys.country,
-        date: this.getTime(data.dt),
-        pressure: data.main.pressure,
-        sunrise: this.getTime(data.sys.sunrise),
-        sunset: this.getTime(data.sys.sunset),
-        error: undefined,
-      });
+      
+      if (data.cod == '404') {
+        this.setState({
+          temp: undefined,
+          city: undefined,
+          country: undefined,
+          date: undefined,
+          pressure: undefined,
+          sunrise: undefined,
+          sunset: undefined,
+          error: "Город не найден !",
+        });
+      }
+      else
+      {
+        this.setState({
+          temp: data.main.temp,
+          city: data.name,
+          country: data.sys.country,
+          date: this.getTime(data.dt),
+          pressure: data.main.pressure,
+          sunrise: this.getTime(data.sys.sunrise),
+          sunset: this.getTime(data.sys.sunset),
+          error: undefined,
+        });
+      }
     } else {
       this.setState({
         temp: undefined,
@@ -57,7 +72,6 @@ class App extends React.Component {
         sunset: undefined,
         error: "Вы не ввели название города !",
       });
-      alert("Вы не ввели название города !");
     }
   };
 

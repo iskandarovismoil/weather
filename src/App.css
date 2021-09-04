@@ -27,8 +27,8 @@
 
 
 .form {
-  height: 38vh;
   padding-top: 13px;
+  padding-bottom: 13px;
 }
 
 
@@ -157,4 +157,9 @@
   border-radius: 10px;
   padding: 10px;
   text-align: center;
+}
+
+
+.weather {
+  margin-top: 13px;
 }
