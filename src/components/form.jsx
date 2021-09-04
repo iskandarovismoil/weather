@@ -1,22 +1,18 @@
-import React from 'react';
+import React from "react";
+import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
-class Form extends React.Component{
-
-    render(){
-        
-        return(
-
-            <div>
-                <form onSubmit={this.props.weatherMethod}>
-                    <input type="text" name="city" placeholder="Город"/>
-                    <button>Получить погоду</button>
-                </form>
-            </div>  
-
-        );
-
-    }
-
-}
+const Form = (props) => (
+  <div className="input_container">
+    <form onSubmit={props.weatherMethod}>
+      <MDBInput
+        label="Напишите имя города"
+        name="city"
+        icon="envelope"
+        type="text"
+      />
+      <MDBBtn className="col-12 mt-2">Получить погоду</MDBBtn>
+    </form>
+  </div>
+);
 
 export default Form;
