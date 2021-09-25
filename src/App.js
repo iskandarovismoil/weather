@@ -2,6 +2,9 @@ import React from "react";
 import Info from "./components/info";
 import Form from "./components/form";
 import Weather from "./components/weather";
+import Lottie from "react-lottie";
+import Success_animation from "./animations/success.json";
+import Error_animation from "./animations/error.json";
 
 const API_KEY = "2dcde87f83fe2233e9fa50e70c582c88";
 
@@ -18,6 +21,8 @@ class App extends React.Component {
     sunrise: undefined,
     sunset: undefined,
     error: undefined,
+    animationData: undefined,
+    showWeather: undefined
   };
 
   getTime(time) {
@@ -29,6 +34,10 @@ class App extends React.Component {
   getWeather = async (e) => {
     e.preventDefault();
     const city = e.target.elements.city.value;
+
+    this.setState({
+      showWeather: undefined,
+    });
 
     if (city) {
       const api_url = await fetch(
@@ -46,6 +55,7 @@ class App extends React.Component {
           sunrise: undefined,
           sunset: undefined,
           error: "Город не найден !",
+          animationData: Error_animation,
         });
       }
       else
@@ -59,6 +69,7 @@ class App extends React.Component {
           sunrise: this.getTime(data.sys.sunrise),
           sunset: this.getTime(data.sys.sunset),
           error: undefined,
+          animationData: Success_animation,
         });
       }
     } else {
@@ -71,13 +82,59 @@ class App extends React.Component {
         sunrise: undefined,
         sunset: undefined,
         error: "Вы не ввели название города !",
+        animationData: Error_animation,
       });
     }
   };
 
   render() {
+
+    const options = {
+      animationData: this.state.animationData,
+      loop: false,
+      autoplay: true,
+      isStopped: true,
+      isPaused: false,
+    };
+
+    const defaultEvent = {
+      eventName: 'complete',
+      callback: () => {
+        this.setState({
+          animationData: undefined,
+          showWeather: true,
+        });
+      },
+    };
+
+    if(this.state.showWeather){
+      var weather = (
+        <Weather
+          temp={this.state.temp}
+          city={this.state.city}
+          country={this.state.country}
+          date={this.state.date}
+          pressure={this.state.pressure}
+          sunrise={this.state.sunrise}
+          sunset={this.state.sunset}
+          error={this.state.error}
+        /> 
+      )
+    }
+
     return (
       <div className="wrapper">
+        {this.state.animationData &&
+          <div className="modal_animation d-flex align-items-center justify-content-center">
+            <Lottie
+              options={options}
+              height={400}
+              width={400}
+              isClickToPauseDisabled
+              eventListeners={[defaultEvent]}
+            />
+          </div>
+        }
         <ul className="background">
           <li></li>
           <li></li>
@@ -90,7 +147,7 @@ class App extends React.Component {
           <li></li>
           <li></li>
         </ul>
-        <div className="main">
+        <div className="main col-sm-8 col-xl-6 ">
           <div className="container">
             <div className="row">
               <div className="col-md-6 info pt-4 p-md-0">
@@ -98,16 +155,7 @@ class App extends React.Component {
               </div>
               <div className="col-md-6 form">
                 <Form weatherMethod={this.getWeather} />
-                <Weather
-                  temp={this.state.temp}
-                  city={this.state.city}
-                  country={this.state.country}
-                  date={this.state.date}
-                  pressure={this.state.pressure}
-                  sunrise={this.state.sunrise}
-                  sunset={this.state.sunset}
-                  error={this.state.error}
-                />
+                { weather }
               </div>
             </div>
           </div>

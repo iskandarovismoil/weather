@@ -3,11 +3,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 }
 
 
 .main {
-  width: 60%;
   margin: 0 auto;
   position: relative;
   background: rgba( 255, 255, 255, 0.4 );
@@ -29,6 +29,7 @@
 .form {
   padding-top: 13px;
   padding-bottom: 13px;
+  height: 354px;
 }
 
 
@@ -162,4 +163,18 @@
 
 .weather {
   margin-top: 13px;
+  --animate-duration: 0.5s;
+}
+
+
+.modal_animation {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
